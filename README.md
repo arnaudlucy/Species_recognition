@@ -6,7 +6,7 @@ This repository contains tools, model.pt, and notebooks for preprocessing image 
 
 This project focuses on:
 - Structuring image datasets collected by observers on board French fishing vessels.
-- Automatically organizing images by species code.
+- Automatically organizing images.
 - Generating clean train/validation/test splits.
 - Supporting the evaluation and visualization of classification results from YOLO models.
 
