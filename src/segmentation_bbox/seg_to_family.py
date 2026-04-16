@@ -5,17 +5,21 @@ from tqdm import tqdm
 # =============================================================================
 # seg_to_family.py
 # Converts YOLO segmentation label files from species-level to family-level.
-# Identical logic to bbox_to_family.py but operates on polygon label files.
+# Same logic as bbox_to_family.py but handles polygon label files where each
+# line has many coordinate values after the class ID.
 #
 # Inputs  (edit the PATH CONFIGURATION block below):
-#   - species_ecology.csv       : taxonomic mapping table
-#   - labels/                   : YOLO .txt segmentation label files (species-level)
-#   - classes.txt               : ordered species class list (one name per line)
+#   - species_ecology.csv                  : taxonomic mapping table
+#   - data/segmentation/labels/            : YOLO .txt segmentation label files
+#   - data/bbox/classes.txt                : ordered species class list (shared with bbox)
 #
 # Outputs:
-#   - labels_by_family/         : rewritten .txt label files (family-level)
-#   - labels_by_family/classes.txt      : family class names
-#   - labels_by_family/family_id_map.txt: family ID -> name mapping
+#   - data/segmentation/labels_by_family/            : rewritten label files (family-level)
+#   - data/segmentation/labels_by_family/classes.txt : family class names
+#   - data/segmentation/labels_by_family/family_id_map.txt : ID -> family name mapping
+#
+# Run:
+#   python src/segmentation_bbox/seg_to_family.py
 # =============================================================================
 
 # =============================================================================
@@ -23,7 +27,7 @@ from tqdm import tqdm
 # =============================================================================
 csv_path            = os.path.join('notebooks', 'species_ecology.csv')
 input_labels_dir    = os.path.join('data', 'segmentation', 'labels')
-original_classes    = os.path.join('data', 'bbox', 'classes.txt')   # shared with bbox
+original_classes    = os.path.join('data', 'bbox', 'classes.txt')
 output_labels_dir   = os.path.join('data', 'segmentation', 'labels_by_family')
 output_classes_path = os.path.join(output_labels_dir, 'classes.txt')
 output_family_map   = os.path.join(output_labels_dir, 'family_id_map.txt')
@@ -61,53 +65,54 @@ for idx, species in enumerate(species_list):
 
 # Build family -> ID mapping (sorted for reproducibility)
 unique_families = sorted(set(species_idx_to_family.values()))
-family_to_id    = {fam: i for i, fam in enumerate(unique_families)}
+family_to_id = {fam: i for i, fam in enumerate(unique_families)}
 
 os.makedirs(output_labels_dir, exist_ok=True)
 
-# Rewrite segmentation label files
+# Rewrite segmentation label files replacing species IDs with family IDs
 for filename in tqdm(os.listdir(input_labels_dir), desc='Converting segmentation labels to family level'):
     if not filename.endswith('.txt'):
         continue
-    input_path  = os.path.join(input_labels_dir, filename)
-    output_path = os.path.join(output_labels_dir, filename)
-    try:
-        with open(input_path, 'r', encoding='utf-8') as infile,              open(output_path, 'w', encoding='utf-8') as outfile:
-            for line in infile:
-                parts = line.strip().split()
-                if not parts:
-                    continue
-                if not parts[0].isdigit():
-                    print(f'[WARNING] Skipping {filename}: invalid class token -> {parts[0]}')
-                    break
-                old_class_id = int(parts[0])
-                if old_class_id not in species_idx_to_family:
-                    continue
-                new_class_id = family_to_id[species_idx_to_family[old_class_id]]
-                outfile.write(' '.join([str(new_class_id)] + parts[1:]) + '
-')
-    except Exception as e:
-        print(f'[ERROR] {filename}: {e}')
 
-# Write output files
+    input_path = os.path.join(input_labels_dir, filename)
+    output_path = os.path.join(output_labels_dir, filename)
+
+    try:
+        with open(input_path, 'r', encoding='utf-8') as infile:
+            with open(output_path, 'w', encoding='utf-8') as outfile:
+                for line in infile:
+                    parts = line.strip().split()
+                    if not parts:
+                        continue
+                    if not parts[0].isdigit():
+                        print('[WARNING] Skipping {}: invalid class token -> {}'.format(filename, parts[0]))
+                        break
+                    old_class_id = int(parts[0])
+                    if old_class_id not in species_idx_to_family:
+                        continue  # no family for this class; skip
+                    new_class_id = family_to_id[species_idx_to_family[old_class_id]]
+                    outfile.write(' '.join([str(new_class_id)] + parts[1:]) + '\n')
+    except Exception as e:
+        print('[ERROR] {}: {}'.format(filename, e))
+
+# Write family classes.txt
 with open(output_classes_path, 'w', encoding='utf-8') as f:
     for fam in unique_families:
-        f.write(f'{fam}
-')
+        f.write(fam + '\n')
 
+# Write family_id_map.txt
 with open(output_family_map, 'w', encoding='utf-8') as f:
     for fam, fam_id in family_to_id.items():
-        f.write(f'{fam_id} {fam}
-')
+        f.write('{} {}\n'.format(fam_id, fam))
 
 # Summary
 if unknown_species:
-    print(f'[WARNING] {len(unknown_species)} species without a known family:')
+    print('[WARNING] {} species without a known family:'.format(len(unknown_species)))
     for s in unknown_species:
-        print(f'  - {s}')
+        print('  - {}'.format(s))
 else:
     print('[OK] All species have a known family.')
 
 print('[OK] Family-level segmentation labels conversion complete.')
-print(f'[OK] Labels written to: {output_labels_dir}')
+print('[OK] Labels written to: {}'.format(output_labels_dir))
 print('[OK] classes.txt and family_id_map.txt generated.')

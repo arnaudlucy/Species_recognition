@@ -9,14 +9,17 @@ from tqdm import tqdm
 # every .txt label file replacing species class IDs with family class IDs.
 #
 # Inputs  (edit the PATH CONFIGURATION block below):
-#   - species_ecology.csv       : taxonomic mapping table
-#   - labels/                   : YOLO .txt bbox label files (species-level)
-#   - classes.txt               : ordered species class list (one name per line)
+#   - species_ecology.csv            : taxonomic mapping table
+#   - data/bbox/dataset/labels/      : YOLO .txt bbox label files (species-level)
+#   - data/bbox/classes.txt          : ordered species class list (one name per line)
 #
 # Outputs:
-#   - labels_by_family/         : rewritten .txt label files (family-level)
-#   - labels_by_family/classes.txt      : family class names
-#   - labels_by_family/family_id_map.txt: family ID -> name mapping
+#   - data/bbox/dataset/labels_by_family/            : rewritten label files (family-level)
+#   - data/bbox/dataset/labels_by_family/classes.txt : family class names
+#   - data/bbox/dataset/labels_by_family/family_id_map.txt : ID -> family name mapping
+#
+# Run:
+#   python src/segmentation_bbox/bbox_to_family.py
 # =============================================================================
 
 # =============================================================================
@@ -62,7 +65,7 @@ for idx, species in enumerate(species_list):
 
 # Build family -> ID mapping (sorted for reproducibility)
 unique_families = sorted(set(species_idx_to_family.values()))
-family_to_id    = {fam: i for i, fam in enumerate(unique_families)}
+family_to_id = {fam: i for i, fam in enumerate(unique_families)}
 
 os.makedirs(output_labels_dir, exist_ok=True)
 
@@ -70,45 +73,45 @@ os.makedirs(output_labels_dir, exist_ok=True)
 for filename in tqdm(os.listdir(input_labels_dir), desc='Converting bbox labels to family level'):
     if not filename.endswith('.txt'):
         continue
-    input_path  = os.path.join(input_labels_dir, filename)
+
+    input_path = os.path.join(input_labels_dir, filename)
     output_path = os.path.join(output_labels_dir, filename)
+
     try:
-        with open(input_path, 'r', encoding='utf-8') as infile,              open(output_path, 'w', encoding='utf-8') as outfile:
-            for line in infile:
-                parts = line.strip().split()
-                if not parts:
-                    continue
-                if not parts[0].isdigit():
-                    print(f'[WARNING] Skipping {filename}: invalid class token -> {parts[0]}')
-                    break
-                old_class_id = int(parts[0])
-                if old_class_id not in species_idx_to_family:
-                    continue  # no family for this class; skip
-                new_class_id = family_to_id[species_idx_to_family[old_class_id]]
-                outfile.write(f'{new_class_id} {" ".join(parts[1:])}
-')
+        with open(input_path, 'r', encoding='utf-8') as infile:
+            with open(output_path, 'w', encoding='utf-8') as outfile:
+                for line in infile:
+                    parts = line.strip().split()
+                    if not parts:
+                        continue
+                    if not parts[0].isdigit():
+                        print(f'[WARNING] Skipping {filename}: invalid class token -> {parts[0]}')
+                        break
+                    old_class_id = int(parts[0])
+                    if old_class_id not in species_idx_to_family:
+                        continue  # no family for this class; skip
+                    new_class_id = family_to_id[species_idx_to_family[old_class_id]]
+                    outfile.write('{} {}\n'.format(new_class_id, ' '.join(parts[1:])))
     except Exception as e:
-        print(f'[ERROR] {filename}: {e}')
+        print('[ERROR] {}: {}'.format(filename, e))
 
 # Write family classes.txt
 with open(output_classes_path, 'w', encoding='utf-8') as f:
     for fam in unique_families:
-        f.write(f'{fam}
-')
+        f.write(fam + '\n')
 
 # Write family_id_map.txt
 with open(output_family_map, 'w', encoding='utf-8') as f:
     for fam, fam_id in family_to_id.items():
-        f.write(f'{fam_id} {fam}
-')
+        f.write('{} {}\n'.format(fam_id, fam))
 
 # Summary
 if unknown_species:
-    print(f'[WARNING] {len(unknown_species)} species without a known family:')
+    print('[WARNING] {} species without a known family:'.format(len(unknown_species)))
     for s in unknown_species:
-        print(f'  - {s}')
+        print('  - {}'.format(s))
 else:
     print('[OK] All species have a known family.')
 
-print(f'[OK] Family-level bbox labels written to: {output_labels_dir}')
-print(f'[OK] classes.txt and family_id_map.txt generated.')
+print('[OK] Family-level bbox labels written to: {}'.format(output_labels_dir))
+print('[OK] classes.txt and family_id_map.txt generated.')

@@ -7,18 +7,18 @@ from ultralytics import YOLO
 # =============================================================================
 # train.py
 # K-fold cross-validation training script for YOLO11 segmentation models.
-# Trains one model per fold, saves per-class metrics as CSV, and reports
-# mean mAP, mAP@0.5:0.95, and recall across all folds.
+# Trains one model per fold, saves per-class metrics as CSV, and prints
+# mean mAP, mAP@0.5:0.95 and recall across all folds.
 #
 # Prerequisites:
-#   - Pre-split fold directories under OUTPUT_DIR/fold_<k>/
-#   - Each fold directory must contain data_yaml.yaml
+#   - Pre-split fold directories at OUTPUT_DIR/fold_<k>/
+#   - Each fold directory must contain a data_yaml.yaml file
 #   - Base YOLO11 segmentation weights at BASE_MODEL_PATH
 #
 # Outputs (per fold):
-#   - train_results/yolo_fold_<k>/  : training artefacts
-#   - fold_<k>/model.pt             : saved weights
-#   - fold_<k>/per_class_metrics_fold<k>.csv : per-class precision/recall/mAP
+#   - fold_<k>/train_results/yolo_fold_<k>/ : training artefacts
+#   - fold_<k>/model.pt                     : saved weights
+#   - fold_<k>/per_class_metrics_fold<k>.csv: per-class precision/recall/mAP
 #
 # Run:
 #   python src/segmentation_bbox/train.py
@@ -43,10 +43,9 @@ torch.cuda.ipc_collect()
 fold_map50, fold_map50_95, fold_recalls = [], [], []
 
 for fold in range(K_FOLDS):
-    print(f'
-[INFO] Fold {fold + 1}/{K_FOLDS} starting...')
+    print('\n[INFO] Fold {}/{} starting...'.format(fold + 1, K_FOLDS))
 
-    fold_dir  = os.path.join(OUTPUT_DIR, f'fold_{fold}')
+    fold_dir  = os.path.join(OUTPUT_DIR, 'fold_{}'.format(fold))
     data_yaml = os.path.join(fold_dir, 'data_yaml.yaml')
 
     model = YOLO(BASE_MODEL_PATH)
@@ -72,31 +71,33 @@ for fold in range(K_FOLDS):
         dfl           = 1.0,
         patience      = 30,
         project       = os.path.join(fold_dir, 'train_results'),
-        name          = f'yolo_fold_{fold}',
+        name          = 'yolo_fold_{}'.format(fold),
         exist_ok      = True,
         seed          = RANDOM_SEED,
     )
 
-    print(f'[OK] Fold {fold} training complete.')
+    print('[OK] Fold {} training complete.'.format(fold))
     model.save(os.path.join(fold_dir, 'model.pt'))
 
     # Validation
     val_results = model.val(data=data_yaml, batch=BATCH_VAL)
 
-    # Per-class metrics
+    # Collect per-class metrics
     results = []
     names = val_results.names
     for i in range(len(names)):
         cls_name = names[i]
+
         try:
-            box_p, box_r     = val_results.box.p[i],   val_results.box.r[i]
-            box_map50        = val_results.box.ap50[i]
-            box_map          = val_results.box.ap[i]
+            box_p     = val_results.box.p[i]
+            box_r     = val_results.box.r[i]
+            box_map50 = val_results.box.ap50[i]
+            box_map   = val_results.box.ap[i]
         except IndexError:
             box_p = box_r = box_map50 = box_map = None
 
         try:
-            seg = val_results.seg if hasattr(val_results, 'seg') else None
+            seg        = val_results.seg if hasattr(val_results, 'seg') else None
             mask_p     = seg.p[i]    if seg else None
             mask_r     = seg.r[i]    if seg else None
             mask_map50 = seg.ap50[i] if seg else None
@@ -116,9 +117,9 @@ for fold in range(K_FOLDS):
             'mask_mAP50-95':  mask_map,
         })
 
-    csv_path = os.path.join(fold_dir, f'per_class_metrics_fold{fold}.csv')
+    csv_path = os.path.join(fold_dir, 'per_class_metrics_fold{}.csv'.format(fold))
     pd.DataFrame(results).to_csv(csv_path, index=False)
-    print(f'[OK] Per-class metrics saved: {csv_path}')
+    print('[OK] Per-class metrics saved: {}'.format(csv_path))
 
     fold_map50.append(val_results.box.map50)
     fold_map50_95.append(val_results.box.map)
@@ -129,7 +130,7 @@ for fold in range(K_FOLDS):
         src_dir  = os.path.join(fold_dir, 'images', split)
         pred_dir = os.path.join(fold_dir, 'preds', split)
         os.makedirs(pred_dir, exist_ok=True)
-        print(f'[INFO] Running predictions on {split} images (fold {fold})...')
+        print('[INFO] Running predictions on {} images (fold {})...'.format(split, fold))
         model.predict(
             source   = src_dir,
             save     = True,
@@ -141,9 +142,8 @@ for fold in range(K_FOLDS):
         )
 
 # Final summary
-print('
-[RESULTS] K-Fold Cross-Validation Summary:')
-print(f'  mAP@0.5        : {np.mean(fold_map50):.4f} +/- {np.std(fold_map50):.4f}')
-print(f'  mAP@0.5:0.95   : {np.mean(fold_map50_95):.4f} +/- {np.std(fold_map50_95):.4f}')
-print(f'  Recall (mean)  : {np.mean(fold_recalls):.4f} +/- {np.std(fold_recalls):.4f}')
+print('\n[RESULTS] K-Fold Cross-Validation Summary:')
+print('  mAP@0.5        : {:.4f} +/- {:.4f}'.format(np.mean(fold_map50), np.std(fold_map50)))
+print('  mAP@0.5:0.95   : {:.4f} +/- {:.4f}'.format(np.mean(fold_map50_95), np.std(fold_map50_95)))
+print('  Recall (mean)  : {:.4f} +/- {:.4f}'.format(np.mean(fold_recalls), np.std(fold_recalls)))
 print('[OK] K-fold training and validation complete.')
