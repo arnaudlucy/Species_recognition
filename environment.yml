@@ -1,0 +1,38 @@
+name: species_recognition
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.10.13
+  - pip
+
+  # Deep learning
+  - pytorch=2.2.0
+  - pytorch-cuda=11.8   # CUDA 11 as used in the paper; adjust to your GPU driver
+
+  # Scientific Python
+  - numpy
+  - pandas
+  - matplotlib
+  - scipy
+
+  # Image processing
+  - opencv
+
+  # Jupyter
+  - jupyter
+  - ipykernel
+  - tqdm
+
+  - pip:
+    # YOLO (exact version used for training)
+    - ultralytics==8.3.78
+
+    # Multilabel stratified split
+    - iterative-stratification
+
+    # Additional utilities
+    - scikit-learn
