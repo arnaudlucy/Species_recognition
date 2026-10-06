@@ -1,4 +1,3 @@
-# Optional: notebook execution and multilabel split. No torch, CUDA or GPU required.
 numpy==1.26.4
 scipy==1.14.1
 scikit-learn==1.5.2
