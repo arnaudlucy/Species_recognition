@@ -31,7 +31,8 @@ Species_recognition/
 ├── environment.yml                  ← Conda environment (pinned versions)
 │
 ├── notebooks/
-│   ├── 01_data_curation.ipynb       ← COCO → YOLO conversion pipeline  ← START HERE
+│   ├── 01_data_curation.ipynb       ← Original internship notebook
+│   ├── 02_data_preparation.ipynb    ← Corrected preparation workflow ← START HERE
 │   ├── metadata_phototeque.csv      ← Per-image metadata
 │   └── species_ecology.csv          ← Taxonomic and ecological info, used for family grouping
 │
@@ -84,26 +85,25 @@ conda activate species_recognition
 Unzip the image archive into `data/images/`.  
 Images are organised into sub-folders named with the FAO 3-alpha code (e.g. `BET-Thunnus-obesus/`).
 
-### 4 · Run the curation notebook
+### 4 · Run the preparation notebook
 
-Open and run **`notebooks/01_data_curation.ipynb`** from top to bottom.  
-All paths are configured in **Cell 2** — you should not need to change anything else.
+Install the CPU preparation dependencies:
 
-| Step | Cell | Output |
-|------|------|--------|
-| Configure paths | 2 | — |
-| Reindex COCO categories | 3 | `data/dataset_coco_reindexed.json` |
-| Load & validate JSON | 4–5 | — |
-| Extract class list | 6 | `data/classes.txt` |
-| Convert COCO → YOLO | 7 | `data/processed_labels/` + `data/annotations.csv` |
-| Visual QC | 8–11 | — |
-| Annotation counts & plots | 12–13 | — |
-| Multilabel stratified split (80/20) | 14 | `data/dataset/` |
-| Simple per-folder split (alternative) | 15 | `data/dataset/` |
-| Orphan label check | 16 | `data/labels_orphans.txt` |
-| Rare-species merging | 17 | `data/classes_final.txt` |
+```bash
+python -m pip install -r requirements-preparation.txt
+```
 
----
+Open `notebooks/02_data_preparation.ipynb` and run all cells. Paths are resolved from the repository location. This notebook converts annotations, derives family labels, exports Hasty attributes and writes a segmentation split manifest. It does not train models or copy photographs.
+
+Outputs are written to `data/prepared`, `data/prepared_families`, `data/prepared_attributes` and `data/prepared_split`. Source annotations are preserved. Identical outputs can be reused; choose a fresh output directory if parameters change. Multipart annotations are rejected rather than converted into multiple objects.
+
+The original `notebooks/01_data_curation.ipynb` remains available with its original comments and experimental cells. Use `02_data_preparation.ipynb` for the corrected preparation workflow. Newly generated splits do not replace the historical splits underlying the reported model metrics.
+
+Run the preparation checks with:
+
+```bash
+python -m unittest discover -s tests -v
+```
 
 ## Dataset Summary
 

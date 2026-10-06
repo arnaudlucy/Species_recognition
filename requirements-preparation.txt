@@ -1,0 +1,8 @@
+# Optional: notebook execution and multilabel split. No torch, CUDA or GPU required.
+numpy==1.26.4
+scipy==1.14.1
+scikit-learn==1.5.2
+iterative-stratification==0.1.9
+nbformat==5.10.4
+nbclient==0.10.2
+ipykernel==6.29.5
