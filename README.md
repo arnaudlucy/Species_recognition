@@ -1,6 +1,6 @@
 # Species Recognition in Tropical Tuna Fisheries
 
-> **REDUCE Project** — Reducing bycatch of threatened megafauna in the East Central Atlantic  
+> **REDUCE Project** Reducing bycatch of threatened megafauna in the East Central Atlantic  
 > EU Horizon Europe · Grant Agreement No. 101135583
 
 [![License: CC BY 4.0](https://img.shields.io/badge/Data%20License-CC%20BY%204.0-lightgrey)](https://creativecommons.org/licenses/by/4.0/)
