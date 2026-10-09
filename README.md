@@ -1,4 +1,4 @@
-# Annotations and supporting metadata for images of tropical pelagic species from French tuna fisheries observer programmes in the Atlantic and Indian Oceans
+# Annotations and supporting metadata for images of tropical pelagic species from French tuna fisheries observer programs in the Atlantic and Indian Oceans
 
 > **REDUCE Project** Reducing bycatch of threatened megafauna in the East Central Atlantic  
 > EU Horizon Europe · Grant Agreement No. 101135583  
@@ -12,9 +12,9 @@
 
 ## Overview
 
-This repository provides the data curation and preparation code accompanying the annotation dataset, together with the internship model workflows. Photographs and annotations are distributed through separate Zenodo deposits.
+This repository provides the data curation and preparation code accompanying the annotation dataset, together with the model workflows. Photographs and annotations are distributed through separate Zenodo deposits.
 
-The dataset covers **107 species across 39 taxonomic families**, with **2,002 annotated images** and **2,887 instances**, labelled at both species and family level using polygon segmentation masks and bounding boxes.
+The dataset covers **107 species across 39 taxonomic families**, with **2,002 annotated images** and **2,887 instances**, labeled at both species and family level using polygon segmentation masks and bounding boxes.
 
 - **Photographs:** [IRD-Ob7 photo library, version v2](https://zenodo.org/records/18788432), DOI [10.5281/zenodo.18788432](https://doi.org/10.5281/zenodo.18788432).
 - **Annotations and supporting metadata:** [Zenodo annotation deposit](https://zenodo.org/records/23194303), DOI `10.5281/zenodo.23194303`. 
@@ -83,7 +83,7 @@ conda activate species_recognition
 Download photographs from the [IRD-Ob7 photo library, version v2](https://zenodo.org/records/18788432). Annotations and supporting metadata are in the [separate annotation deposit](https://zenodo.org/records/23194303).
 
 Unzip the image archive into `data/images/`.  
-Images are organised into sub-folders named with the FAO 3-alpha code (e.g. `BET-Thunnus-obesus/`).
+Images are organized into sub-folders named with the FAO 3-alpha code (e.g., `BET-Thunnus-obesus/`).
 
 ### 4 · Run the preparation notebook
 
@@ -95,7 +95,7 @@ python -m pip install -r requirements-preparation.txt
 
 Open `notebooks/02_data_preparation.ipynb` and run all cells. Paths are resolved from the repository location. This notebook converts annotations, derives family labels, exports Hasty attributes and writes a segmentation split manifest. It does not train models or copy photographs.
 
-Outputs are written to `data/prepared`, `data/prepared_families`, `data/prepared_attributes` and `data/prepared_split`. Source annotations are preserved. Identical outputs can be reused; choose a fresh output directory if parameters change. Multipart annotations are rejected rather than converted into multiple objects.
+Outputs are written to `data/prepared`, `data/prepared_families`, `data/prepared_attributes` and `data/prepared_split`. Source annotations are preserved. You can reuse identical outputs; choose a fresh output directory if parameters change. Multipart annotations are rejected rather than converted into multiple objects.
 
 The original `notebooks/01_data_curation.ipynb` remains available with its original comments and experimental cells. Use `02_data_preparation.ipynb` for the corrected preparation workflow. Newly generated splits do not replace the historical splits underlying the reported model metrics.
 
@@ -120,7 +120,7 @@ See `results/taxonomy_summary_by_category.csv` for full details.
 
 ## Model Performance (YOLO11-large)
 
-Classification model files are provided in [`Classifiers/species_level.pt`](Classifiers/species_level.pt) and [`Classifiers/family_level.pt`](Classifiers/family_level.pt). Their presence is distinct from the availability of the historical image-level train/validation manifests.
+Classification model files are provided in [`Classifiers/species_level.pt`](Classifiers/species_level.pt) and [`Classifiers/family_level.pt`](Classifiers/family_level.pt). Their availability is distinct from the historical image-level train/validation manifests.
 
 | Task | Level | Top-1 Accuracy | Precision | Recall |
 |------|-------|---------------|-----------|--------|
@@ -135,10 +135,10 @@ Classification model files are provided in [`Classifiers/species_level.pt`](Clas
 
 ## Citation
 
-Please cite the resources you use:
+How to cite:
 
 - Sabarros, P. S. and Lebranchu, J. (2026). *Photothèque des espèces rencontrées dans le cadre des programmes d’observation des pêcheries tropicales françaises (senne et palangre)*, v2. [Zenodo](https://doi.org/10.5281/zenodo.18788432).
-- Arnaud, L., Restrepo-Ortiz, C., Sabarros, P. S., and Kaplan, D. M. *Annotations and supporting metadata for images of tropical pelagic species from French tuna fisheries observer programmes in the Atlantic and Indian Oceans*, version 1.0.0. [Zenodo](https://zenodo.org/records/23194303), DOI `10.5281/zenodo.23194303`.
+- Arnaud, L., Restrepo-Ortiz, C., Sabarros, P. S., and Kaplan, D. M. *Annotations and supporting metadata for images of tropical pelagic species from French tuna fisheries observer programs in the Atlantic and Indian Oceans*, version 1.0.0. [Zenodo](https://zenodo.org/records/23194303), DOI `10.5281/zenodo.23194303`.
 
 ---
 
