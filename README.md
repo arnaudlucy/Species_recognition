@@ -1,7 +1,8 @@
-# Species Recognition in Tropical Tuna Fisheries
+# Annotations and supporting metadata for images of tropical pelagic species from French tuna fisheries observer programmes in the Atlantic and Indian Oceans
 
 > **REDUCE Project** Reducing bycatch of threatened megafauna in the East Central Atlantic  
-> EU Horizon Europe · Grant Agreement No. 101135583
+> EU Horizon Europe · Grant Agreement No. 101135583  
+> **IDIL Graduate Program, University of Montpellier** · France 2030 · ANR-21-SFRI-0004
 
 [![License: CC BY 4.0](https://img.shields.io/badge/Data%20License-CC%20BY%204.0-lightgrey)](https://creativecommons.org/licenses/by/4.0/)
 [![Python 3.10](https://img.shields.io/badge/Python-3.10.13-blue)](https://www.python.org/)
@@ -11,13 +12,14 @@
 
 ## Overview
 
-This repository contains the data curation pipeline and reproducibility code for the annotated dataset of bycatch species from French tropical tuna fisheries described in:
-
-> **Arnaud L et al.** *(2025)*. *An annotated image dataset of epipelagic bycatch species from French tropical tuna fisheries observer programs.* Data in Brief (submitted).
+This repository provides the data curation and preparation code accompanying the annotation dataset, together with the internship model workflows. Photographs and annotations are distributed through separate Zenodo deposits.
 
 The dataset covers **107 species across 39 taxonomic families**, with **2,002 annotated images** and **2,887 instances**, labelled at both species and family level using polygon segmentation masks and bounding boxes.
 
-Images are available on **Zenodo**: `[(https://zenodo.org/records/18788432)]`
+- **Photographs:** [IRD-Ob7 photo library, version v2](https://zenodo.org/records/18788432), DOI [10.5281/zenodo.18788432](https://doi.org/10.5281/zenodo.18788432).
+- **Annotations and supporting metadata:** [Zenodo annotation deposit](https://zenodo.org/records/23194303?preview=1), reserved DOI `10.5281/zenodo.23194303`. This deposit is currently a draft; access requires authorization until publication.
+
+The annotations document the corpus used during the internship. The photo library is maintained independently; this annotation release is not automatically synchronized with later additions or filename changes.
 
 ---
 
@@ -78,9 +80,7 @@ conda activate species_recognition
 
 ### 3 · Download the images from Zenodo
 
-```
-[Zenodo DOI link — to be added upon publication]
-```
+Download photographs from the [IRD-Ob7 photo library, version v2](https://zenodo.org/records/18788432). Annotations and supporting metadata are in the [separate annotation deposit](https://zenodo.org/records/23194303?preview=1) (currently a draft).
 
 Unzip the image archive into `data/images/`.  
 Images are organised into sub-folders named with the FAO 3-alpha code (e.g. `BET-Thunnus-obesus/`).
@@ -120,6 +120,8 @@ See `results/taxonomy_summary_by_category.csv` for full details.
 
 ## Model Performance (YOLO11-large)
 
+Classification model files are provided in [`Classifiers/species_level.pt`](Classifiers/species_level.pt) and [`Classifiers/family_level.pt`](Classifiers/family_level.pt). Their presence is distinct from the availability of the historical image-level train/validation manifests.
+
 | Task | Level | Top-1 Accuracy | Precision | Recall |
 |------|-------|---------------|-----------|--------|
 | Classification | Species | 73.6% | 93.7% | 88.4% |
@@ -133,25 +135,16 @@ See `results/taxonomy_summary_by_category.csv` for full details.
 
 ## Citation
 
-If you use this dataset or code, please cite:
+Please cite the resources you use:
 
-```bibtex
-@article{arnaud2025reduce,
-  title   = {An annotated image dataset of epipelagic bycatch species
-             from French tropical tuna fisheries observer programs},
-  author  = {Arnaud, Lucy Zoe Marylou and Kaplan, David M. and
-             Restrepo-Ortiz, Claudia},
-  journal = {Data in Brief},
-  year    = {2025},
-  note    = {Submitted}
-}
-```
+- Sabarros, P. S. and Lebranchu, J. (2026). *Photothèque des espèces rencontrées dans le cadre des programmes d’observation des pêcheries tropicales françaises (senne et palangre)*, v2. [Zenodo](https://doi.org/10.5281/zenodo.18788432).
+- Arnaud, L., Restrepo-Ortiz, C., Sabarros, P. S., and Kaplan, D. M. *Annotations and supporting metadata for images of tropical pelagic species from French tuna fisheries observer programmes in the Atlantic and Indian Oceans*, version 1.0.0. [Zenodo draft](https://zenodo.org/records/23194303?preview=1), reserved DOI `10.5281/zenodo.23194303` (not yet registered).
 
 ---
 
 ## Funding
 
-This work was supported by the REDUCE project (*Reducing bycatch of threatened megafauna in the East Central Atlantic*), Grant Agreement No. 101135583, funded by the European Commission through the HORIZON EUROPE Programme.
+This work was supported by the REDUCE project (*Reducing bycatch of threatened megafauna in the East Central Atlantic*), Grant Agreement No. 101135583, funded by the European Commission through the HORIZON EUROPE Programme. Lucy Arnaud also received financial support from the IDIL Graduate Program of the University of Montpellier, funded by the French Government through France 2030 and the Agence nationale de la recherche (ANR-21-SFRI-0004).
 
 ---
 
@@ -159,3 +152,5 @@ This work was supported by the REDUCE project (*Reducing bycatch of threatened m
 
 - **Code** — MIT License  
 - **Data and annotations** — [Creative Commons Attribution 4.0 (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
+
+Photographs hosted in the associated IRD-Ob7 deposit are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/); they are distributed separately from the annotations.
