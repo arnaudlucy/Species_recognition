@@ -17,7 +17,7 @@ This repository contains the data curation pipeline and reproducibility code for
 
 The dataset covers **107 species across 39 taxonomic families**, with **2,002 annotated images** and **2,887 instances**, labelled at both species and family level using polygon segmentation masks and bounding boxes.
 
-Images are available on **Zenodo**: `[DOI to be added upon publication]`
+Images are available on **Zenodo**: `[(https://zenodo.org/records/18788432)]`
 
 ---
 
