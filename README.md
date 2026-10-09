@@ -17,7 +17,7 @@ This repository provides the data curation and preparation code accompanying the
 The dataset covers **107 species across 39 taxonomic families**, with **2,002 annotated images** and **2,887 instances**, labelled at both species and family level using polygon segmentation masks and bounding boxes.
 
 - **Photographs:** [IRD-Ob7 photo library, version v2](https://zenodo.org/records/18788432), DOI [10.5281/zenodo.18788432](https://doi.org/10.5281/zenodo.18788432).
-- **Annotations and supporting metadata:** [Zenodo annotation deposit](https://zenodo.org/records/23194303?preview=1), reserved DOI `10.5281/zenodo.23194303`. This deposit is currently a draft; access requires authorization until publication.
+- **Annotations and supporting metadata:** [Zenodo annotation deposit](https://zenodo.org/records/23194303), DOI `10.5281/zenodo.23194303`. 
 
 The annotations document the corpus used during the internship. The photo library is maintained independently; this annotation release is not automatically synchronized with later additions or filename changes.
 
@@ -80,7 +80,7 @@ conda activate species_recognition
 
 ### 3 · Download the images from Zenodo
 
-Download photographs from the [IRD-Ob7 photo library, version v2](https://zenodo.org/records/18788432). Annotations and supporting metadata are in the [separate annotation deposit](https://zenodo.org/records/23194303?preview=1) (currently a draft).
+Download photographs from the [IRD-Ob7 photo library, version v2](https://zenodo.org/records/18788432). Annotations and supporting metadata are in the [separate annotation deposit](https://zenodo.org/records/23194303).
 
 Unzip the image archive into `data/images/`.  
 Images are organised into sub-folders named with the FAO 3-alpha code (e.g. `BET-Thunnus-obesus/`).
@@ -138,7 +138,7 @@ Classification model files are provided in [`Classifiers/species_level.pt`](Clas
 Please cite the resources you use:
 
 - Sabarros, P. S. and Lebranchu, J. (2026). *Photothèque des espèces rencontrées dans le cadre des programmes d’observation des pêcheries tropicales françaises (senne et palangre)*, v2. [Zenodo](https://doi.org/10.5281/zenodo.18788432).
-- Arnaud, L., Restrepo-Ortiz, C., Sabarros, P. S., and Kaplan, D. M. *Annotations and supporting metadata for images of tropical pelagic species from French tuna fisheries observer programmes in the Atlantic and Indian Oceans*, version 1.0.0. [Zenodo draft](https://zenodo.org/records/23194303?preview=1), reserved DOI `10.5281/zenodo.23194303` (not yet registered).
+- Arnaud, L., Restrepo-Ortiz, C., Sabarros, P. S., and Kaplan, D. M. *Annotations and supporting metadata for images of tropical pelagic species from French tuna fisheries observer programmes in the Atlantic and Indian Oceans*, version 1.0.0. [Zenodo](https://zenodo.org/records/23194303), DOI `10.5281/zenodo.23194303`.
 
 ---
 
