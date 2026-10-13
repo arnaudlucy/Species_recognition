@@ -1,8 +1,8 @@
 # Annotations and supporting metadata for images of tropical pelagic species from French tuna fisheries observer programs in the Atlantic and Indian Oceans
 
 > **REDUCE Project** Reducing bycatch of threatened megafauna in the East Central Atlantic  
-> EU Horizon Europe · Grant Agreement No. 101135583  
-> **IDIL Graduate Program, University of Montpellier** · France 2030 · ANR-21-SFRI-0004
+> EU Horizon Europe Grant Agreement No. 101135583  
+> **IDIL Graduate Program, University of Montpellier**  France 2030  ANR-21-SFRI-0004
 
 [![License: CC BY 4.0](https://img.shields.io/badge/Data%20License-CC%20BY%204.0-lightgrey)](https://creativecommons.org/licenses/by/4.0/)
 [![Python 3.10](https://img.shields.io/badge/Python-3.10.13-blue)](https://www.python.org/)
@@ -150,7 +150,7 @@ This work was supported by the REDUCE project (*Reducing bycatch of threatened m
 
 ## License
 
-- **Code** — MIT License  
-- **Data and annotations** — [Creative Commons Attribution 4.0 (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
+- **Code**  MIT License  
+- **Data and annotations**  [Creative Commons Attribution 4.0 (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
 
 Photographs hosted in the associated IRD-Ob7 deposit are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/); they are distributed separately from the annotations.
