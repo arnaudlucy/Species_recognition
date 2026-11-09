@@ -14,7 +14,7 @@
 
 This repository provides the data curation and preparation code accompanying the annotation dataset, together with the model workflows. Photographs and annotations are distributed through separate Zenodo deposits.
 
-The dataset covers **107 species across 39 taxonomic families**, with **2,002 annotated images** and **2,887 instances**, labeled at both species and family level using polygon segmentation masks and bounding boxes.
+The COCO file contains **2,002 image records** and **2,887 annotated instances**. An instance is one individual delineated by a polygon segmentation mask and a bounding box. Of 125 declared annotation categories, 123 are populated: 110 carry species names and 13 are unresolved `Unknown` groups. The classification folders used during the internship comprise **107 species-labelled classes** plus higher-rank groups, mapped to **39 family-level model classes**. These classification counts and the COCO category vocabulary are related but are not interchangeable.
 
 - **Photographs:** [IRD-Ob7 photo library, version v2](https://zenodo.org/records/18788432), DOI [10.5281/zenodo.18788432](https://doi.org/10.5281/zenodo.18788432).
 - **Annotations and supporting metadata:** [Zenodo annotation deposit](https://zenodo.org/records/23194303), DOI `10.5281/zenodo.23194303`. 
@@ -31,6 +31,11 @@ Species_recognition/
 ├── README.md                        ← This file
 ├── LICENSE                          ← CC BY 4.0
 ├── environment.yml                  ← Conda environment (pinned versions)
+├── split_manifests/                 ← Recovered image-level train/val/test lists
+├── Classifiers/
+│   ├── species_level.pt             ← Archived 111-class checkpoint
+│   ├── family_level.pt              ← Archived 39-class checkpoint
+│   └── provenance/                  ← Arguments, epoch results and checkpoint metadata
 │
 ├── notebooks/
 │   ├── 01_data_curation.ipynb       ← Original internship notebook
@@ -107,29 +112,29 @@ python -m unittest discover -s tests -v
 
 ## Dataset Summary
 
-| Category | Families | Species | Images | Instances |
-|----------|----------|---------|--------|-----------|
-| Elasmobranchii | 13 | 31 | — | — |
-| Teleostei | 18 | 53 | — | — |
-| Reptilia / Mammalia / Other | 8 | 23 | — | — |
-| **Total** | **39** | **107** | **2,002** | **2,887** |
+| COCO annotation vocabulary | Count |
+|---|---:|
+| Images | 2,002 |
+| Annotated instances | 2,887 |
+| Declared categories | 125 |
+| Populated categories | 123 |
+| Populated species-named categories | 110 |
+| Populated unresolved `Unknown` groups | 13 |
 
-See `results/taxonomy_summary_by_category.csv` for full details.
+The recovered species-classification directories contain 111 output folders: 107 species-labelled folders and four higher-rank groups. The family classifier has 39 output classes. See [`split_manifests/README.md`](split_manifests/README.md) for the recovered image lists and the limits of their linkage to each checkpoint.
 
 ---
 
 ## Model Performance (YOLO11-large)
 
-Classification model files are provided in [`Classifiers/species_level.pt`](Classifiers/species_level.pt) and [`Classifiers/family_level.pt`](Classifiers/family_level.pt). Their availability is distinct from the historical image-level train/validation manifests.
+Classification model files are provided in [`Classifiers/species_level.pt`](Classifiers/species_level.pt) and [`Classifiers/family_level.pt`](Classifiers/family_level.pt). The values below are stored in those checkpoints and are reported as validation metrics.
 
-| Task | Level | Top-1 Accuracy | Precision | Recall |
-|------|-------|---------------|-----------|--------|
-| Classification | Species | 73.6% | 93.7% | 88.4% |
-| Classification | Family  | 89.3% | 86.8% | 88.1% |
-| Object Detection | Species | — | 84.6% (mAP@50: 61.8%) | 46.1% |
-| Object Detection | Family  | — | 93.8% (mAP@50: 88.7%) | 81.4% |
-| Instance Segmentation | Species | — | 72.3% (mAP@50: 71.8%) | 63.6% |
-| Instance Segmentation | Family  | — | 91.4% (mAP@50: 83.2%) | 73.1% |
+| Level | Output classes | Top-1 accuracy | Top-5 accuracy |
+|------|---:|---:|---:|
+| Species-labelled and higher-rank groups | 111 | 78.153% | 94.820% |
+| Family | 39 | 89.346% | 97.337% |
+
+Training arguments, epoch results, extracted checkpoint metadata and SHA-256 checksums are documented in [`Classifiers/README.md`](Classifiers/README.md). The recovered family manifests are linked to the family checkpoint. The recovered species manifests are retained as a candidate split because their 111 folder names match the checkpoint outputs, but exact image-level membership for that checkpoint could not be proven from the remaining archive.
 
 ---
 
