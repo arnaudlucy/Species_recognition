@@ -31,7 +31,7 @@ Species_recognition/
 ├── README.md                        ← This file
 ├── LICENSE                          ← CC BY 4.0
 ├── environment.yml                  ← Conda environment (pinned versions)
-├── split_manifests/                 ← Recovered image-level train/val/test lists
+├── split_manifests/                 ← Image-level classification partition list
 ├── Classifiers/
 │   ├── species_level.pt             ← Archived 111-class checkpoint
 │   ├── family_level.pt              ← Archived 39-class checkpoint
@@ -121,7 +121,7 @@ python -m unittest discover -s tests -v
 | Populated species-named categories | 110 |
 | Populated unresolved `Unknown` groups | 13 |
 
-The recovered species-classification directories contain 111 output folders: 107 species-labelled folders and four higher-rank groups. The family classifier has 39 output classes. See [`split_manifests/README.md`](split_manifests/README.md) for the recovered image lists and the limits of their linkage to each checkpoint.
+The published classification manifest contains 111 species/taxonomic-label folders (107 species-labelled folders and four higher-rank groups) and 39 family classes. See [`split_manifests/README.md`](split_manifests/README.md) for the image-level train, validation and family test memberships.
 
 ---
 
@@ -134,7 +134,7 @@ Classification model files are provided in [`Classifiers/species_level.pt`](Clas
 | Species-labelled and higher-rank groups | 111 | 78.153% | 94.820% |
 | Family | 39 | 89.346% | 97.337% |
 
-Training arguments, epoch results, extracted checkpoint metadata and SHA-256 checksums are documented in [`Classifiers/README.md`](Classifiers/README.md). The recovered family manifests are linked to the family checkpoint. The recovered species manifests are retained as a candidate split because their 111 folder names match the checkpoint outputs, but exact image-level membership for that checkpoint could not be proven from the remaining archive.
+Training arguments, epoch results, extracted checkpoint metadata and SHA-256 checksums are documented in [`Classifiers/README.md`](Classifiers/README.md). The family partition list is linked to the family checkpoint. The species partition has the same 111 class-folder names as the archived species checkpoint; exact image-level membership for that checkpoint could not be independently confirmed from the remaining run directory.
 
 ---
 

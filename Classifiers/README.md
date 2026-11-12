@@ -11,4 +11,4 @@ The two YOLO11-large classification checkpoints are preserved exactly as archive
 
 The 111 species-level outputs comprise 107 species-labelled classes and four higher-rank groups: `BRZ-Bramidae`, `CAX-Ariidae`, `FLF-Cantherhines-spp` and `FLY-Exocoetidae`. The number 107 therefore describes the classification folders, rather than the complete COCO category vocabulary.
 
-See [`../split_manifests/README.md`](../split_manifests/README.md) for the recovered image lists and their evidence limitations.
+See [`../split_manifests/README.md`](../split_manifests/README.md) for the combined image-level classification partition list and its scope.

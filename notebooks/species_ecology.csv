@@ -23,14 +23,14 @@ Bowmouth_guitarfish,Rhina_ancylostoma,Chondrichthyes,Rhinopristiformes,Rhinidae,
 Brassy_chub,Kyphosus_vaigiensis,Actinopterygii,Perciformes,Kyphosidae,Kyphosus,Marine_Neritic,LC,Unknown,N/A
 Bull_Shark,Carcharhinus_leucas,Chondrichthyes,Carcharhiniformes,Carcharhinidae,Carcharhinus,Wetlands/Marine_Neritic/Coastal/Supratidal,VU,Decreasing,N/A
 Bullet_tuna,Auxis_rochei,Actinopterygii,Scombriformes,Scombridae,Auxis,Marine_Oceanic,LC,Stable,Full_migrant
-Bumphead_sunfish,Mola_alexandrini,Actinopterygii,Tetraodontiformes	,Molidae,Mola,Marine_Oceanic/Neritic,Not_evaluated,Unknown,N/A
+Bumphead_sunfish,Mola_alexandrini,Actinopterygii,Tetraodontiformes,Molidae,Mola,Marine_Oceanic/Neritic,Not_evaluated,Unknown,N/A
 Chilean_devil_ray,Mobula_tarapacana,Chondrichthyes,Myliobatiformes,Mobulidae,Mobula,Marine_Oceanic/Neritic,EN,Decreasing,N/A
 Common_Dolphinfish,Coryphaena_hippurus,Actinopterygii,Perciformes,Coryphaenidae,Coryphaena,Marine_Oceanic/Neritic,LC,Stable,N/A
 Common_remora,Remora_remora,Actinopterygii,Perciformes,Echeneidae,Remora,Marine_Oceanic/Neritic,LC,Stable,N/A
 Cottonmouth_jack,Uraspis_secunda,Actinopterygii,Perciformes,Carangidae,Uraspis,Marine_Oceanic/Neritic,LC,Stable,N/A
 Devil_fish,Mobula_mobular,Chondrichthyes,Myliobatiformes,Mobulidae,Mobula,Marine_Oceanic/Neritic,EN,Decreasing,N/A
 False_killer_whale,Pseudorca_crassidens,Mammalia,Artiodactyla,Delphinidae,Pseudorca,Marine_Oceanic/Neritic,NT,Unknown,N/A
-Filefishes,Unknown_cantherines,Actinopterygii,Tetraodontiformes	,Monacanthidae,N/A,N/A,N/A,N/A,N/A
+Filefishes,Unknown_cantherhines,Actinopterygii,Tetraodontiformes,Monacanthidae,N/A,N/A,N/A,N/A,N/A
 Fin_Whale,Balaenoptera_physalus,Mammalia,Artiodactyla,Balaenopteridae,Balaenoptera,Marine_Oceanic/Neritic,VU,Increasing,N/A
 Flat_Needlefish,Ablennes_hians,Actinopterygii,Beloniformes,Belonidae,Ablennes,Marine_Neritic,LC,Unknown,N/A
 Flying_fishes,Unknown_exocoetidae,Actinopterygii,Beloniformes,Exocoetidae,N/A,N/A,N/A,Unknown,N/A
@@ -50,7 +50,7 @@ Indo_pacific_sergeant,Abudefduf_vaigiensis,Actinopterygii,Not_assigned,Pomacentr
 Island_trevally,Carangoides_orthogrammus,Actinopterygii,Perciformes,Carangidae,Carangoides,Marine_Oceanic/Neritic,LC,Unknown,N/A
 Jacks_Pompanos,Unknown_carangidae,Actinopterygii,Perciformes,Carangidae,N/A,N/A,N/A,N/A,N/A
 Kawakawa,Euthynnus_affinis,Actinopterygii,Perciformes,Scombridae,Euthynnus,Marine_Oceanic/Neritic,LC,Unknown,Full_migrant
-Largescale_triggerfish,Canthidermis_macrolepis,Actinopterygii,Tetraodontiformes	,Balistidae,Canthidermis,Marine_Oceanic/Neritic,LC,Unknown,N/A
+Largescale_triggerfish,Canthidermis_macrolepis,Actinopterygii,Tetraodontiformes,Balistidae,Canthidermis,Marine_Oceanic/Neritic,LC,Unknown,N/A
 Leatherback_turtle,Dermochelys_coriacea,Reptilia,Testudines,Dermochelyidae,Dermochelys,Terrestrial/Marine_Oceanic/IntertidalCoastal/Supratidal,VU,Decreasing,Full_migrant
 Little_tunny,Euthynnus_alletteratus,Actinopterygii,Perciformes,Scombridae,Euthynnus,Marine_Oceanic,LC,Stable,Full_migrant
 Live_sharksucker,Echeneis_naucrates,Actinopterygii,Perciformes,Echeneidae,Echeneis,Marine_Oceanic/Neritic,LC,Stable,N/A
@@ -60,15 +60,15 @@ Longfin_batfish,Platax_teira,Actinopterygii,Perciformes,Ephippidae,Platax,Marine
 Longfin_mako,Isurus_paucus,Chondrichthyes,Lamniformes,Lamnidae,Isurus,Marine_Oceanic,EN,Decreasing,N/A
 Longfin_tuna,Thunnus_alalunga,Actinopterygii,Scombriformes,Scombridae,Thunnus,Marine_Oceanic/Neritic,LC,Decreasing,Full_migrant
 Longfin_yellowtail,Seriola_rivoliana,Actinopterygii,Perciformes,Carangidae,Seriola,Marine_Neritic,LC,Stable,N/A
-Longhorn_cowfish,Lactoria_cornuta,Actinopterygii,Tetraodontiformes,Ostraciidae,Lactori,Marine_Neritic/Intertidal,LC,Unknown,N/A
+Longhorn_cowfish,Lactoria_cornuta,Actinopterygii,Tetraodontiformes,Ostraciidae,Lactoria,Marine_Neritic/Intertidal,LC,Unknown,N/A
 Longspined_porcupinefish,Diodon_holocanthus,Actinopterygii,Tetraodontiformes,Diodontidae,Diodon,Marine_Neritic,LC,Unknown,N/A
 Mackerel_scad,Decapterus_macarellus,Actinopterygii,Perciformes,Carangidae,Decapterus,Marine_Neritic,LC,Unknown,N/A
-Mackerels_tunas_bonitos, Unknown_scombridae,Actinopterygii,Perciformes,Scombridae,N/A,N/A,N/A,N/A,N/A
+Mackerels_tunas_bonitos,Unknown_scombridae,Actinopterygii,Perciformes,Scombridae,N/A,N/A,N/A,N/A,N/A
 Marlin_sucker,Remora_osteochir,Actinopterygii,Perciformes,Echeneidae,Remora,Marine_Oceanic/Neritic,LC,Stable,N/A
 N/A,Unknown_bonyfish,Actinopterygii,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 Needlefishes,Unknown_belonidae,Actinopterygii,Beloniformes,Belonidae,N/A,N/A,N/A,N/A,N/A
-Ocean_sunfish,Mola_mola,,Tetraodontiformes,Molidae,Mola,Marine_Oceanic,VU,Decreasing,N/A
-Oceanic_puffer,Lagocephalus_lagocephalus,Actinopterygii,Tetraodontiformes	,Tetraodontidae,Lagocephalus,Marine_Oceanic/Neritic,LC,Unknown,N/A
+Ocean_sunfish,Mola_mola,Actinopterygii,Tetraodontiformes,Molidae,Mola,Marine_Oceanic,VU,Decreasing,N/A
+Oceanic_puffer,Lagocephalus_lagocephalus,Actinopterygii,Tetraodontiformes,Tetraodontidae,Lagocephalus,Marine_Oceanic/Neritic,LC,Unknown,N/A
 Oceanic_whitetip_shark,Carcharhinus_longimanus,Chondrichthyes,Carcharhiniformes,Carcharhinidae,Carcharhinus,Marine_Oceanic/Neritic,CR,Decreasing,N/A
 Olive_ridley_turtle,Lepidochelys_olivacea,Reptilia,Testudines,Cheloniidae,Lepidochelys,Terrestrial/Marine_Oceanic/Intertidal/Neritic,VU,Decreasing,Full_migrant
 Orbiculate_batfish,Platax_orbicularis,Actinopterygii,Perciformes,Ephippidae,Platax,Marine_Neritic/Intertidal,LC,Unknown,N/A
@@ -87,8 +87,8 @@ Remoras,Unknown_remora,Actinopterygii,Perciformes,Echeneidae,N/A,N/A,N/A,N/A,N/A
 Reticulate_unicornfish,Naso_reticulatus,Actinopterygii,Perciformes,Acanthuridae,Naso,Marine_Neritic,DD,Unknown,N/A
 Rissos_dolphin,Grampus_griseus,Mammalia,Artiodactyla,Delphinidae,Grampus,Marine_Oceanic,LC,Unknown,N/A
 Rough_triggerfish,Canthidermis_maculata,Actinopterygii,Tetraodontiformes,Balistidae,Canthidermis,Marine_Neritic,LC,Stable,N/A
-Roundbelly_cowfish,Lactoria_diaphana,Actinopterygii,Tetraodontiformes,Ostraciidae,Lactori,Marine_Neritic,LC,Unknown,N/A
-Sailfish,Istophorus_platypterus,Actinopterygii,Perciformes,Istiophoridae,Istiophorus,Marine_Oceanic/Neritic,VU,Decreasing,N/A
+Roundbelly_cowfish,Lactoria_diaphana,Actinopterygii,Tetraodontiformes,Ostraciidae,Lactoria,Marine_Neritic,LC,Unknown,N/A
+Sailfish,Istiophorus_platypterus,Actinopterygii,Perciformes,Istiophoridae,Istiophorus,Marine_Oceanic/Neritic,VU,Decreasing,N/A
 Sandbar_shark,Carcharhinus_plumbeus,Chondrichthyes,Carcharhiniformes,Carcharhinidae,Carcharhinus,Marine_Neritic/Deep_Benthic,EN,Decreasing,N/A
 Scalloped_hammerhead,Sphyrna_lewini,Chondrichthyes,Carcharhiniformes,Sphyrnidae,Sphyrna,Marine_Oceanic/Neritic,CR,Decreasing,N/A
 Scribbled_leatherjacket_filefish,Aluterus_scriptus,Actinopterygii,Tetraodontiformes,Monacanthidae,Aluterus,Marine_Neritic,LC,Unknown,N/A
@@ -107,11 +107,11 @@ Smoothtail_mobula,Mobula_thurstoni,Chondrichthyes,Myliobatiformes,Mobulidae,Mobu
 Snake_mackerel,Gempylus_serpens,Actinopterygii,Perciformes,Gempylidae,Gempylus,Marine_Oceanic/Neritic,LC,Stable,N/A
 Spearfish_remora,Remora_brachyptera,Actinopterygii,Perciformes,Echeneidae,Remora,Marine_Oceanic/Neritic,LC,Unknown,Full_migrant
 Spot_fin_porcupinefish,Diodon_hystrix,Actinopterygii,Tetraodontiformes,Diodontidae,Diodon,Marine_Neritic,LC,Unknown,N/A
-Spotfin burrfish,Chilomycterus_affinis,Actinopterygii,Tetraodontiformes	,Diodontidae,Chilomycterus,Marine_Neritic,LC,Unknown,N/A
+Spotfin burrfish,Chilomycterus_affinis,Actinopterygii,Tetraodontiformes,Diodontidae,Chilomycterus,Marine_Neritic,LC,Unknown,N/A
 Striped_marlin,Kajikia_audax,Actinopterygii,Perciformes,Istiophoridae,Kajikia,Marine_Oceanic/Neritic,LC,Decreasing,Full_migrant
 Swordfish,Xiphias_gladius,Actinopterygii,Perciformes,Xiphiidae,Xiphias,Marine_Oceanic/Neritic,NT,Decreasing,Full_migrant
 Tiger_shark,Galeocerdo_cuvier,Chondrichthyes,Carcharhiniformes,Carcharhinidae,Galeocerdo,Marine_Oceanic/Neritic,NT,Decreasing,N/A
-Triggerfishes,Unknown_balistidae,Actinopterygii,Tetraodontiformes	,Balistidae,N/A,N/A,N/A,Unknown,N/A
+Triggerfishes,Unknown_balistidae,Actinopterygii,Tetraodontiformes,Balistidae,N/A,N/A,N/A,Unknown,N/A
 Turtles,Unknown_turtle,Reptilia,Testudines,N/A,N/A,N/A,N/A,N/A,N/A
 Unicorn_leatherjacket_filefish,Aluterus_monoceros,Actinopterygii,Tetraodontiformes,Monacanthidae,Aluterus,Marine_Neritic,LC,Unknown,N/A
 Wahoo,Acanthocybium_solandri,Actinopterygii,Perciformes,Scombridae,Acanthocybium,Marine_Oceanic/Neritic,LC,Stable,Full_migrant
@@ -120,6 +120,8 @@ White_marlin,Tetrapturus_albidus,Actinopterygii,Perciformes,Istiophoridae,Kajiki
 White_spotted_puffer,Arothron_hispidus,Actinopterygii,Tetraodontiformes,Tetraodontidae,Arothron,Freshwater/Marine Neritic/Intertidal,LC,Unknown,N/A
 Whitemargin_unicornfish,Naso_annulatus,Actinopterygii,Perciformes,Acanthuridae,Naso,Marine_Neritic,LC,Stable,N/A
 Whitemouth_jack,Uraspis_uraspis,Actinopterygii,Perciformes,Carangidae,Uraspis,Marine_Neritic,LC,Unknown,N/A
-Whitespotted_filefish,Cantherhines_macrocerus,Actinopterygii,Tetraodontiformes	,Monacanthidae,Cantherhines,Marine_Neritic,LC,Unknown,N/A
+Whitespotted_filefish,Cantherhines_macrocerus,Actinopterygii,Tetraodontiformes,Monacanthidae,Cantherhines,Marine_Neritic,LC,Unknown,N/A
 Whitetongue_jack,Uraspis_helvola,Actinopterygii,Perciformes,Carangidae,Uraspis,Marine_Neritic,LC,Unknown,N/A
 Yellowfin_tuna,Thunnus_albacares,Actinopterygii,Perciformes,Scombridae,Thunnus,Marine_Oceanic/Neritic,LC,Decreasing,Full_migrant
+Grey_triggerfish,Balistes_capriscus,Actinopterygii,Tetraodontiformes,Balistidae,Balistes,,VU,,
+Sperm_whale,Physeter_macrocephalus,Mammalia,Artiodactyla,Physeteridae,Physeter,Marine_Neritic/Marine_Oceanic,VU,Unknown,
