@@ -16,6 +16,7 @@ PATIENCE="${PATIENCE:-30}"
 BATCH="${BATCH:-32}"
 IMGSZ="${IMGSZ:-224}"
 DEVICE="${DEVICE:-0}"
+WORKERS="${WORKERS:-1}"
 
 if [[ ! -f "${TAXONOMY}" && -f "${SCRIPT_DIR}/species_ecology.csv" ]]; then
     TAXONOMY="${SCRIPT_DIR}/species_ecology.csv"
@@ -60,7 +61,7 @@ yolo classify train \
     batch="${BATCH}" \
     imgsz="${IMGSZ}" \
     device="${DEVICE}" \
-    workers=8 \
+    workers="${WORKERS}" \
     project="${PROJECT}" \
     name="${RUN_NAME}" \
     exist_ok=False \
@@ -95,6 +96,7 @@ yolo classify train \
 
 cp "${FILTERED_DATASET}/split_manifest.csv" "${RUN_DIR}/publication_evaluation/"
 cp "${FILTERED_DATASET}/class_counts.csv" "${RUN_DIR}/publication_evaluation/"
+cp "${FILTERED_DATASET}/repaired_images.csv" "${RUN_DIR}/publication_evaluation/"
 cp "${FILTERED_DATASET}/split_report.json" "${RUN_DIR}/publication_evaluation/"
 sha256sum "${RUN_DIR}/weights/best.pt" > "${RUN_DIR}/publication_evaluation/best.pt.sha256"
 

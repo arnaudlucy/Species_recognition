@@ -8,6 +8,8 @@ import os
 import shutil
 import tempfile
 
+from PIL import Image, ImageFile
+
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png"}
 EXCLUDED_CLASSES = {
@@ -34,6 +36,34 @@ def sha256(path):
         for block in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def image_error(path):
+    try:
+        with Image.open(path) as image:
+            image.load()
+        return None
+    except Exception as error:
+        return str(error)
+
+
+def repair_image(source, destination):
+    previous = ImageFile.LOAD_TRUNCATED_IMAGES
+    ImageFile.LOAD_TRUNCATED_IMAGES = True
+    try:
+        with Image.open(source) as image:
+            image.load()
+            image_format = image.format or "JPEG"
+            exif = image.getexif()
+            repaired = image.convert("RGB") if image_format.upper() in {"JPEG", "JPG"} else image.copy()
+            options = {"format": image_format}
+            if exif:
+                options["exif"] = exif.tobytes()
+            repaired.save(destination, **options)
+        with Image.open(destination) as check:
+            check.load()
+    finally:
+        ImageFile.LOAD_TRUNCATED_IMAGES = previous
 
 
 def write_csv(path, rows, fields):
@@ -94,6 +124,7 @@ def prepare_filtered_split(
 
     rows = []
     class_counts = []
+    repaired_images = []
     hashes_by_split = defaultdict(set)
 
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -106,9 +137,14 @@ def prepare_filtered_split(
             split_output.mkdir()
             for class_name in sorted(retained_classes[split]):
                 class_source = split_directories[split] / class_name
-                files = image_files(class_source)
+                candidates = image_files(class_source)
+                files = [(source_file, image_error(source_file)) for source_file in candidates]
                 if not files:
                     raise ValueError(f"No images in {class_source}")
+                if mode == "symlink" and any(error for _, error in files):
+                    raise ValueError(
+                        "Symlink mode cannot repair unreadable images; use hardlink or copy mode"
+                    )
 
                 class_output = split_output / class_name
                 if mode == "symlink":
@@ -119,17 +155,30 @@ def prepare_filtered_split(
                 class_counts.append(
                     {"split": split, "class_name": class_name, "images": len(files)}
                 )
-                for source_file in files:
+                for source_file, read_error in files:
                     relative_inside_class = source_file.relative_to(class_source)
                     destination = class_output / relative_inside_class
                     if mode != "symlink":
                         destination.parent.mkdir(parents=True, exist_ok=True)
-                        if mode == "hardlink":
+                        if read_error:
+                            repair_image(source_file, destination)
+                            repaired_images.append(
+                                {
+                                    "split": split,
+                                    "class_name": class_name,
+                                    "relative_path": source_file.relative_to(source).as_posix(),
+                                    "file_name": source_file.name,
+                                    "source_error": read_error,
+                                }
+                            )
+                        elif mode == "hardlink":
                             os.link(source_file, destination)
                         else:
                             shutil.copy2(source_file, destination)
 
-                    digest = sha256(source_file)
+                    prepared_file = destination if mode != "symlink" else source_file
+                    source_digest = sha256(source_file)
+                    digest = sha256(prepared_file)
                     hashes_by_split[digest].add(split)
                     rows.append(
                         {
@@ -137,8 +186,10 @@ def prepare_filtered_split(
                             "class_name": class_name,
                             "relative_path": source_file.relative_to(source).as_posix(),
                             "file_name": source_file.name,
-                            "size_bytes": source_file.stat().st_size,
+                            "size_bytes": prepared_file.stat().st_size,
+                            "source_sha256": source_digest,
                             "sha256": digest,
+                            "preparation_action": "repaired_copy" if read_error else mode,
                         }
                     )
 
@@ -159,13 +210,20 @@ def prepare_filtered_split(
                 "relative_path",
                 "file_name",
                 "size_bytes",
+                "source_sha256",
                 "sha256",
+                "preparation_action",
             ],
         )
         write_csv(
             stage / "class_counts.csv",
             class_counts,
             ["split", "class_name", "images"],
+        )
+        write_csv(
+            stage / "repaired_images.csv",
+            repaired_images,
+            ["split", "class_name", "relative_path", "file_name", "source_error"],
         )
         report = {
             "source": str(source),
@@ -174,6 +232,7 @@ def prepare_filtered_split(
             "retained_classes": expected_class_count,
             "excluded_classes": sorted(excluded_classes),
             "images": dict(Counter(row["split"] for row in rows)),
+            "repaired_unreadable_images": len(repaired_images),
             "duplicate_hashes_across_splits": duplicate_hashes,
             "ready_for_training": True,
         }

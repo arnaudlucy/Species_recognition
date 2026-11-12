@@ -5,6 +5,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'src'))
@@ -89,19 +90,23 @@ class PreparationTests(unittest.TestCase):
         excluded=['BRZ-Bramidae','CAX-Ariidae','FLF-Cantherhines-spp','FLY-Exocoetidae']
         retained=['BET-Thunnus-obesus','YFT-Thunnus-albacares']
         for split in ('train','val'):
-            for category in excluded+retained:
+            for index,category in enumerate(excluded+retained):
                 folder=source/split/category; folder.mkdir(parents=True)
-                (folder/f'{split}-{category}.jpg').write_bytes(f'{split}-{category}'.encode())
+                Image.new('RGB',(2,2),(index,0,0 if split=='train' else 1)).save(folder/f'{split}-{category}.jpg')
+        truncated=source/'train'/retained[0]/'truncated.jpg'
+        Image.new('RGB',(8,8),(255,0,0)).save(truncated)
+        truncated.write_bytes(truncated.read_bytes()[:-10])
         report=prepare_filtered_split(source,self.root/'species_107',mode='copy',expected_class_count=2)
         self.assertEqual(report['retained_classes'],2)
-        self.assertEqual(report['images'],{'train':2,'val':2})
+        self.assertEqual(report['images'],{'train':3,'val':2})
+        self.assertEqual(report['repaired_unreadable_images'],1)
         self.assertEqual(sorted(p.name for p in (self.root/'species_107/train').iterdir()),retained)
         with (self.root/'species_107/split_manifest.csv').open() as stream:
             manifest=list(csv.DictReader(stream))
         self.assertEqual({row['split'] for row in manifest},{'train','val'})
         self.assertTrue(all(row['class_name'] in retained for row in manifest))
         validation=validate_filtered_split(self.root/'species_107',expected_class_count=2)
-        self.assertEqual(validation['images'],{'train':2,'val':2})
+        self.assertEqual(validation['images'],{'train':3,'val':2})
 
 
 if __name__=='__main__': unittest.main()
