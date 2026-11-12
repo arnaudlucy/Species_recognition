@@ -32,7 +32,6 @@ Species_recognition/
 ├── LICENSE                          ← CC BY 4.0
 ├── environment.yml                  ← Conda environment (pinned versions)
 ├── split_manifests/                 ← Recovered image-level train/val/test lists
-├── figures/data_description/        ← Reproducible manuscript figures and source counts
 ├── Classifiers/
 │   ├── species_level.pt             ← Archived 111-class checkpoint
 │   ├── family_level.pt              ← Archived 39-class checkpoint
@@ -123,8 +122,6 @@ python -m unittest discover -s tests -v
 | Populated unresolved `Unknown` groups | 13 |
 
 The recovered species-classification directories contain 111 output folders: 107 species-labelled folders and four higher-rank groups. The family classifier has 39 output classes. See [`split_manifests/README.md`](split_manifests/README.md) for the recovered image lists and the limits of their linkage to each checkpoint.
-
-The category-distribution and image-selection figures are available in [`figures/data_description`](figures/data_description). They can be regenerated from the released COCO file with `python src/figures/make_dataset_figures.py`.
 
 ---
 
