@@ -8,6 +8,12 @@ from math import ceil
 # Set random seed for reproducibility
 SEED = 40
 random.seed(SEED)
+EXCLUDED_CLASSES = {
+    'BRZ-Bramidae',
+    'CAX-Ariidae',
+    'FLF-Cantherhines-spp',
+    'FLY-Exocoetidae',
+}
 
 # Paths
 # source_dir: directory containing species subfolders (one subfolder per species)
@@ -22,7 +28,9 @@ os.makedirs(train_dir, exist_ok=True)
 os.makedirs(val_dir, exist_ok=True)
 
 # Loop through each species folder in the source directory
-for species_folder in os.listdir(source_dir):
+for species_folder in sorted(os.listdir(source_dir)):
+    if species_folder in EXCLUDED_CLASSES:
+        continue
     species_path = os.path.join(source_dir, species_folder)
 
     # Skip if it's not a directory (e.g., ignore files at root level)
@@ -30,7 +38,7 @@ for species_folder in os.listdir(source_dir):
         continue
 
     # List all image files in the species folder
-    images = [f for f in os.listdir(species_path) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
+    images = sorted(f for f in os.listdir(species_path) if f.lower().endswith(('.jpg', '.jpeg', '.png')))
 
     # Skip species with fewer than 2 images (cannot split properly)
     if len(images) < 2:

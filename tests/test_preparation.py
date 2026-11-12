@@ -10,6 +10,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'src'))
 from prepare_annotations import prepare, derive_families, derive_rare
 from prepare_splits import classification_split, copy_segmentation_split
+from classification.filter_species_split_107 import prepare_filtered_split
 
 
 class PreparationTests(unittest.TestCase):
@@ -82,6 +83,23 @@ class PreparationTests(unittest.TestCase):
         for i in range(2): (source/f'{i}.jpg').write_bytes(b'same-image')
         report=classification_split(source.parent,self.root/'split')
         self.assertFalse(report['ready_for_evaluation'])
+
+    def test_species_filter_preserves_split_and_excludes_higher_ranks(self):
+        source=self.root/'data_spp_seed'
+        excluded=['BRZ-Bramidae','CAX-Ariidae','FLF-Cantherhines-spp','FLY-Exocoetidae']
+        retained=['BET-Thunnus-obesus','YFT-Thunnus-albacares']
+        for split in ('train','val'):
+            for category in excluded+retained:
+                folder=source/split/category; folder.mkdir(parents=True)
+                (folder/f'{split}-{category}.jpg').write_bytes(f'{split}-{category}'.encode())
+        report=prepare_filtered_split(source,self.root/'species_107',mode='copy',expected_class_count=2)
+        self.assertEqual(report['retained_classes'],2)
+        self.assertEqual(report['images'],{'train':2,'val':2})
+        self.assertEqual(sorted(p.name for p in (self.root/'species_107/train').iterdir()),retained)
+        with (self.root/'species_107/split_manifest.csv').open() as stream:
+            manifest=list(csv.DictReader(stream))
+        self.assertEqual({row['split'] for row in manifest},{'train','val'})
+        self.assertTrue(all(row['class_name'] in retained for row in manifest))
 
 
 if __name__=='__main__': unittest.main()
