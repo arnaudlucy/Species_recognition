@@ -47,7 +47,7 @@ else
     "${PYTHON}" "${SCRIPT_DIR}/filter_species_split_107.py" \
         --source "${SOURCE_DATASET}" \
         --output "${FILTERED_DATASET}" \
-        --mode symlink
+        --mode hardlink
 fi
 
 mkdir -p "${LOG_DIR}"

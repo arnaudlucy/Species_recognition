@@ -46,7 +46,7 @@ def write_csv(path, rows, fields):
 def prepare_filtered_split(
     source,
     output,
-    mode="symlink",
+    mode="hardlink",
     expected_class_count=107,
     excluded_classes=EXCLUDED_CLASSES,
 ):
@@ -207,8 +207,15 @@ def validate_filtered_split(
         split_path = dataset / split
         if not split_path.is_dir():
             raise FileNotFoundError(split_path)
-        classes[split] = {path.name for path in split_path.iterdir() if path.is_dir()}
-        counts[split] = sum(len(image_files(path)) for path in split_path.iterdir() if path.is_dir())
+        class_paths = [path for path in split_path.iterdir() if path.is_dir()]
+        symbolic_classes = [path.name for path in class_paths if path.is_symlink()]
+        if symbolic_classes:
+            raise ValueError(
+                "Symbolic class directories are not supported by the YOLO classification "
+                "dataset scanner. Rebuild the derived dataset in hardlink mode."
+            )
+        classes[split] = {path.name for path in class_paths}
+        counts[split] = sum(len(image_files(path)) for path in class_paths)
 
     if classes["train"] != classes["val"]:
         raise ValueError("The existing train and val class lists differ")
@@ -244,7 +251,7 @@ def main():
     parser.add_argument("--output", type=Path)
     parser.add_argument("--validate-existing", type=Path)
     parser.add_argument(
-        "--mode", choices=["symlink", "hardlink", "copy"], default="symlink"
+        "--mode", choices=["symlink", "hardlink", "copy"], default="hardlink"
     )
     args = parser.parse_args()
     if args.validate_existing:

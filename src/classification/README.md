@@ -9,7 +9,7 @@ image memberships and excludes these four higher-rank folders:
 - `FLF-Cantherhines-spp`
 - `FLY-Exocoetidae`
 
-The derived dataset uses symbolic links, so the photographs are not copied.
+The derived dataset uses hard links, so the photographs are not duplicated.
 The script writes the exact train/validation manifest with SHA-256 checksums,
 checks that no byte-identical image crosses the split, trains YOLO11-large with
 the archived `data_spp_seed` settings and evaluates the best checkpoint.
