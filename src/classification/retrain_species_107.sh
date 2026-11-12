@@ -11,6 +11,11 @@ PROJECT="${PROJECT:-${REPOSITORY_ROOT}/runs_species_107}"
 RUN_NAME="${RUN_NAME:-species_107_seed40}"
 TAXONOMY="${TAXONOMY:-${REPOSITORY_ROOT}/notebooks/species_ecology.csv}"
 PYTHON="${PYTHON:-python}"
+EPOCHS="${EPOCHS:-150}"
+PATIENCE="${PATIENCE:-30}"
+BATCH="${BATCH:-32}"
+IMGSZ="${IMGSZ:-224}"
+DEVICE="${DEVICE:-0}"
 
 if [[ ! -f "${TAXONOMY}" && -f "${SCRIPT_DIR}/species_ecology.csv" ]]; then
     TAXONOMY="${SCRIPT_DIR}/species_ecology.csv"
@@ -51,10 +56,11 @@ mkdir -p "${LOG_DIR}"
 yolo classify train \
     model="${MODEL}" \
     data="${FILTERED_DATASET}" \
-    epochs=150 \
-    patience=30 \
-    batch=32 \
-    imgsz=224 \
+    epochs="${EPOCHS}" \
+    patience="${PATIENCE}" \
+    batch="${BATCH}" \
+    imgsz="${IMGSZ}" \
+    device="${DEVICE}" \
     workers=8 \
     project="${PROJECT}" \
     name="${RUN_NAME}" \
@@ -85,8 +91,8 @@ yolo classify train \
     --data "${FILTERED_DATASET}" \
     --taxonomy "${TAXONOMY}" \
     --output "${RUN_DIR}/publication_evaluation" \
-    --imgsz 224 \
-    --batch 32
+    --imgsz "${IMGSZ}" \
+    --batch "${BATCH}"
 
 cp "${FILTERED_DATASET}/split_manifest.csv" "${RUN_DIR}/publication_evaluation/"
 cp "${FILTERED_DATASET}/class_counts.csv" "${RUN_DIR}/publication_evaluation/"
