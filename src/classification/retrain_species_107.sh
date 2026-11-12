@@ -34,22 +34,21 @@ if [[ ! -f "${TAXONOMY}" ]]; then
     exit 1
 fi
 
-if [[ -e "${FILTERED_DATASET}" ]]; then
-    echo "Filtered dataset already exists: ${FILTERED_DATASET}" >&2
-    echo "Choose another FILTERED_DATASET or remove the old derived dataset after checking it." >&2
-    exit 1
-fi
-
 if [[ -e "${RUN_DIR}" ]]; then
     echo "Training run already exists: ${RUN_DIR}" >&2
     echo "Choose another RUN_NAME; an existing run will not be overwritten." >&2
     exit 1
 fi
 
-"${PYTHON}" "${SCRIPT_DIR}/filter_species_split_107.py" \
-    --source "${SOURCE_DATASET}" \
-    --output "${FILTERED_DATASET}" \
-    --mode symlink
+if [[ -e "${FILTERED_DATASET}" ]]; then
+    "${PYTHON}" "${SCRIPT_DIR}/filter_species_split_107.py" \
+        --validate-existing "${FILTERED_DATASET}"
+else
+    "${PYTHON}" "${SCRIPT_DIR}/filter_species_split_107.py" \
+        --source "${SOURCE_DATASET}" \
+        --output "${FILTERED_DATASET}" \
+        --mode symlink
+fi
 
 mkdir -p "${LOG_DIR}"
 

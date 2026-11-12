@@ -10,7 +10,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'src'))
 from prepare_annotations import prepare, derive_families, derive_rare
 from prepare_splits import classification_split, copy_segmentation_split
-from classification.filter_species_split_107 import prepare_filtered_split
+from classification.filter_species_split_107 import prepare_filtered_split, validate_filtered_split
 
 
 class PreparationTests(unittest.TestCase):
@@ -100,6 +100,8 @@ class PreparationTests(unittest.TestCase):
             manifest=list(csv.DictReader(stream))
         self.assertEqual({row['split'] for row in manifest},{'train','val'})
         self.assertTrue(all(row['class_name'] in retained for row in manifest))
+        validation=validate_filtered_split(self.root/'species_107',expected_class_count=2)
+        self.assertEqual(validation['images'],{'train':2,'val':2})
 
 
 if __name__=='__main__': unittest.main()

@@ -185,17 +185,74 @@ def prepare_filtered_split(
     return report
 
 
+def validate_filtered_split(
+    dataset,
+    expected_class_count=107,
+    excluded_classes=EXCLUDED_CLASSES,
+):
+    dataset = Path(dataset).resolve()
+    excluded_classes = set(excluded_classes)
+    report_path = dataset / "split_report.json"
+    manifest_path = dataset / "split_manifest.csv"
+    if not report_path.is_file() or not manifest_path.is_file():
+        raise FileNotFoundError("The filtered dataset has no split report or manifest")
+
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    if not report.get("ready_for_training"):
+        raise ValueError("The existing filtered dataset is not marked ready for training")
+
+    classes = {}
+    counts = {}
+    for split in ("train", "val"):
+        split_path = dataset / split
+        if not split_path.is_dir():
+            raise FileNotFoundError(split_path)
+        classes[split] = {path.name for path in split_path.iterdir() if path.is_dir()}
+        counts[split] = sum(len(image_files(path)) for path in split_path.iterdir() if path.is_dir())
+
+    if classes["train"] != classes["val"]:
+        raise ValueError("The existing train and val class lists differ")
+    if len(classes["train"]) != expected_class_count:
+        raise ValueError(
+            f"Expected {expected_class_count} classes, found {len(classes['train'])}"
+        )
+    unexpected = classes["train"].intersection(excluded_classes)
+    if unexpected:
+        raise ValueError("Excluded classes remain: " + ", ".join(sorted(unexpected)))
+
+    with manifest_path.open(encoding="utf-8", newline="") as stream:
+        manifest = list(csv.DictReader(stream))
+    manifest_counts = Counter(row["split"] for row in manifest)
+    if dict(manifest_counts) != counts:
+        raise ValueError(
+            f"Manifest counts {dict(manifest_counts)} do not match dataset counts {counts}"
+        )
+
+    return {
+        "dataset": str(dataset),
+        "classes": len(classes["train"]),
+        "images": counts,
+        "ready_for_training": True,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Filter an existing train/val classification split to 107 species classes."
     )
-    parser.add_argument("--source", type=Path, required=True)
-    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--source", type=Path)
+    parser.add_argument("--output", type=Path)
+    parser.add_argument("--validate-existing", type=Path)
     parser.add_argument(
         "--mode", choices=["symlink", "hardlink", "copy"], default="symlink"
     )
     args = parser.parse_args()
-    report = prepare_filtered_split(args.source, args.output, mode=args.mode)
+    if args.validate_existing:
+        report = validate_filtered_split(args.validate_existing)
+    else:
+        if args.source is None or args.output is None:
+            parser.error("--source and --output are required when creating a split")
+        report = prepare_filtered_split(args.source, args.output, mode=args.mode)
     print(json.dumps(report, indent=2))
 
 
