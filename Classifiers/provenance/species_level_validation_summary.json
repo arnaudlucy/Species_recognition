@@ -1,0 +1,14 @@
+{
+  "model": "/marbec-data/PB-N-AI_Redu/Yolo_classification/runs_species_107/species_107_seed40_slurm/weights/best.pt",
+  "dataset": "/marbec-data/PB-N-AI_Redu/Yolo_classification/data_spp_107_seed40_clean",
+  "classes": 107,
+  "training_images": 1595,
+  "validation_images": 374,
+  "top1_accuracy": 0.7807486631016043,
+  "top5_accuracy": 0.9411764705882353,
+  "precision": 0.760069275644142,
+  "recall": 0.7807486631016043,
+  "f1": 0.7552298718740499,
+  "precision_recall_averaging": "support-weighted",
+  "imgsz": 224
+}

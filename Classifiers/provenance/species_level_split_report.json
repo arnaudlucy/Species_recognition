@@ -1,0 +1,19 @@
+{
+  "source": "/marbec-data/PB-N-AI_Redu/Yolo_classification/data_spp_seed",
+  "output": "/marbec-data/PB-N-AI_Redu/Yolo_classification/data_spp_107_seed40_clean",
+  "mode": "hardlink",
+  "retained_classes": 107,
+  "excluded_classes": [
+    "BRZ-Bramidae",
+    "CAX-Ariidae",
+    "FLF-Cantherhines-spp",
+    "FLY-Exocoetidae"
+  ],
+  "images": {
+    "train": 1595,
+    "val": 374
+  },
+  "repaired_unreadable_images": 1,
+  "duplicate_hashes_across_splits": [],
+  "ready_for_training": true
+}

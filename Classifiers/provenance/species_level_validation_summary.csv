@@ -1,0 +1,2 @@
+model,dataset,classes,training_images,validation_images,top1_accuracy,top5_accuracy,precision,recall,f1,precision_recall_averaging,imgsz
+/marbec-data/PB-N-AI_Redu/Yolo_classification/runs_species_107/species_107_seed40_slurm/weights/best.pt,/marbec-data/PB-N-AI_Redu/Yolo_classification/data_spp_107_seed40_clean,107,1595,374,0.7807486631016043,0.9411764705882353,0.760069275644142,0.7807486631016043,0.7552298718740499,support-weighted,224

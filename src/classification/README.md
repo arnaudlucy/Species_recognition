@@ -13,7 +13,7 @@ The derived dataset uses hard links, so the photographs are not duplicated.
 The script writes the exact train/validation manifest with SHA-256 checksums,
 checks that no byte-identical image crosses the split, trains YOLO11-large with
 the archived `data_spp_seed` settings and evaluates the best checkpoint.
-With the recovered split, the expected result is 1,595 training images and 369
+With the recovered split, the expected result is 1,595 training images and 374
 validation images across 107 classes.
 
 Unreadable truncated photographs are re-encoded only in the derived dataset and
@@ -40,14 +40,14 @@ training log and `publication_evaluation/`. The latter contains the exact split
 manifest, per-image predictions, Top-1 and Top-5 accuracy, support-weighted
 precision and recall, the confusion matrix and the precision-recall plot.
 
-On the MARBEC Slurm cluster, submit the GPU job instead of running training in
-the interactive Jupyter terminal:
+An example Slurm submission file is provided for users of a GPU cluster. Edit
+the environment, partition, storage and model paths for the local system before
+submission:
 
 ```bash
-cd /home/larnaud/MARBEC_classification
-git -C Species_recognition_code pull
-sbatch Species_recognition_code/src/classification/train_species_107.slurm
+sbatch src/classification/train_species_107.slurm
 squeue -u "$USER"
 ```
 
-The job requests one A40 GPU, four CPU cores and 32 GB of system memory.
+The example requests one GPU, four CPU cores and 32 GB of system memory. It is
+not required for data preparation or CPU inference.

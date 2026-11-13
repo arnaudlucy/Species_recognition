@@ -14,7 +14,7 @@
 
 This repository provides the data curation and preparation code accompanying the annotation dataset, together with the model workflows. Photographs and annotations are distributed through separate Zenodo deposits.
 
-The COCO file contains **2,002 image records** and **2,887 annotated instances**. An instance is one individual delineated by a polygon segmentation mask and a bounding box. Of 125 declared annotation categories, 123 are populated: 110 carry species names and 13 are unresolved `Unknown` groups. The classification folders used during the internship comprise **107 species-labelled classes** plus higher-rank groups, mapped to **39 family-level model classes**. These classification counts and the COCO category vocabulary are related but are not interchangeable.
+The COCO file contains **2,002 image records** and **2,887 annotated instances**. An instance is one individual delineated by a polygon segmentation mask and a bounding box. Of 125 declared annotation categories, 123 are populated: 110 carry species names and 13 are unresolved `Unknown` groups. The frozen classification benchmarks contain **107 species-labelled classes** and **39 family-level classes**. These classification counts and the COCO category vocabulary are related but are not interchangeable.
 
 - **Photographs:** [IRD-Ob7 photo library, version v2](https://zenodo.org/records/18788432), DOI [10.5281/zenodo.18788432](https://doi.org/10.5281/zenodo.18788432).
 - **Annotations and supporting metadata:** [Zenodo annotation deposit](https://zenodo.org/records/23194303), DOI `10.5281/zenodo.23194303`. 
@@ -33,7 +33,7 @@ Species_recognition/
 ├── environment.yml                  ← Conda environment (pinned versions)
 ├── split_manifests/                 ← Image-level classification partition list
 ├── Classifiers/
-│   ├── species_level.pt             ← Archived 111-class checkpoint
+│   ├── species_level.pt             ← Validated 107-class checkpoint
 │   ├── family_level.pt              ← Archived 39-class checkpoint
 │   └── provenance/                  ← Arguments, epoch results and checkpoint metadata
 │
@@ -121,7 +121,7 @@ python -m unittest discover -s tests -v
 | Populated species-named categories | 110 |
 | Populated unresolved `Unknown` groups | 13 |
 
-The published classification manifest contains 111 species/taxonomic-label folders (107 species-labelled folders and four higher-rank groups) and 39 family classes. See [`split_manifests/README.md`](split_manifests/README.md) for the image-level train, validation and family test memberships.
+The current classification manifest contains 107 species-labelled classes and 39 family classes. See [`split_manifests/README.md`](split_manifests/README.md) for the frozen image-level train, validation and family test memberships. The superseded 111-folder manifest is retained separately for provenance.
 
 ---
 
@@ -131,10 +131,10 @@ Classification model files are provided in [`Classifiers/species_level.pt`](Clas
 
 | Level | Output classes | Top-1 accuracy | Top-5 accuracy |
 |------|---:|---:|---:|
-| Species-labelled and higher-rank groups | 111 | 78.153% | 94.820% |
+| Species | 107 | 78.075% | 94.118% |
 | Family | 39 | 89.346% | 97.337% |
 
-Training arguments, epoch results, extracted checkpoint metadata and SHA-256 checksums are documented in [`Classifiers/README.md`](Classifiers/README.md). The family partition list is linked to the family checkpoint. The species partition has the same 111 class-folder names as the archived species checkpoint; exact image-level membership for that checkpoint could not be independently confirmed from the remaining run directory.
+Training arguments, epoch results, extracted checkpoint metadata, per-image validation predictions and SHA-256 checksums are documented in [`Classifiers/README.md`](Classifiers/README.md). The exact 107-class species split contains 1,595 training images and 374 validation images, with no byte-identical file crossing the split.
 
 ---
 
