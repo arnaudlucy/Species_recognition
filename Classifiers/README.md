@@ -9,6 +9,6 @@ The two YOLO11-large classification checkpoints and their validation metrics are
 
 `provenance/` contains the training arguments, epoch-level results, safely extracted checkpoint metadata, per-class metrics and per-image species validation predictions. Precision and recall for the 107-class species checkpoint were recalculated on its frozen 374-image validation partition using support-weighted averaging (precision 0.76007; recall 0.78075).
 
-The current species checkpoint contains only the 107 species-labelled classes. The four higher-rank folders present in the historical partition (`BRZ-Bramidae`, `CAX-Ariidae`, `FLF-Cantherhines-spp` and `FLY-Exocoetidae`) were excluded before training. The number 107 describes the classification folders, rather than the complete COCO category vocabulary.
+The species checkpoint contains 107 species-labelled classes. The number 107 describes the classification folders, rather than the complete COCO category vocabulary.
 
 See [`../split_manifests/README.md`](../split_manifests/README.md) for the frozen image-level classification partition lists and their scope.

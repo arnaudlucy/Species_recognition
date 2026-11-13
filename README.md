@@ -34,31 +34,20 @@ Species_recognition/
 ├── split_manifests/                 ← Image-level classification partition list
 ├── Classifiers/
 │   ├── species_level.pt             ← Validated 107-class checkpoint
-│   ├── family_level.pt              ← Archived 39-class checkpoint
+│   ├── family_level.pt              ← 39-class checkpoint
 │   └── provenance/                  ← Arguments, epoch results and checkpoint metadata
 │
 ├── notebooks/
 │   ├── 01_data_curation.ipynb       ← Original internship notebook
 │   ├── 02_data_preparation.ipynb    ← Corrected preparation workflow ← START HERE
-│   ├── metadata_phototeque.csv      ← Per-image metadata
+│   ├── ASFIS_sp_2025.csv            ← FAO ASFIS species reference
+│   ├── metadata_phototheque.csv     ← Per-image metadata
 │   └── species_ecology.csv          ← Taxonomic and ecological info, used for family grouping
 │
 ├── data/
 │   ├── README.md                    ← Explains what goes here and where to get images
 │   ├── final_data.json              ← Raw COCO annotation export from Hasty.ai
-│   ├── dataset_coco_reindexed.json  ← COCO with 0-indexed categories (output of cell 3)
-│   ├── classes.txt                  ← Class ID → name mapping (output of cell 6)
-│   ├── classes_final.txt            ← After rare-species merging (output of cell 17)
-│   ├── annotations.csv              ← Annotation metadata CSV (output of cell 7)
-│   ├── images/                      ←   Download from Zenodo and unzip here
-│   │   └── <FAO_code>-<Genus>-<species>/
-│   │       └── *.jpg
-│   ├── processed_labels/            ← YOLO .txt label files (output of cell 7)
-│   └── dataset/                     ← Train/val split (output of cell 14)
-│       ├── images/train/
-│       ├── images/val/
-│       ├── labels/train/
-│       └── labels/val/
+│   └── images/                      ← Download photographs separately
 │
 └── results/
     ├── summary_families_photo_counts.csv
@@ -121,13 +110,13 @@ python -m unittest discover -s tests -v
 | Populated species-named categories | 110 |
 | Populated unresolved `Unknown` groups | 13 |
 
-The current classification manifest contains 107 species-labelled classes and 39 family classes. See [`split_manifests/README.md`](split_manifests/README.md) for the frozen image-level train, validation and family test memberships. The superseded 111-folder manifest is retained separately for provenance.
+The current classification manifest contains 107 species-labelled classes and 39 family classes. See [`split_manifests/README.md`](split_manifests/README.md) for the frozen image-level train, validation and family test memberships.
 
 ---
 
 ## Model Performance (YOLO11-large)
 
-Classification model files are provided in [`Classifiers/species_level.pt`](Classifiers/species_level.pt) and [`Classifiers/family_level.pt`](Classifiers/family_level.pt). The values below are stored in those checkpoints and are reported as validation metrics.
+Classification model files are provided in [`Classifiers/species_level.pt`](Classifiers/species_level.pt) and [`Classifiers/family_level.pt`](Classifiers/family_level.pt). The species values were recalculated on the frozen validation partition; the family values are recorded in the checkpoint. Both are validation metrics.
 
 | Level | Output classes | Top-1 accuracy | Top-5 accuracy |
 |------|---:|---:|---:|
