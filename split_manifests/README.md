@@ -10,13 +10,13 @@
 | Family | Validation | 413 | 39 |
 | Family | Test | 102 | 18 |
 
-The CSV contains four columns:
+The CSV contains the following columns:
 
 - `model_level`: `species` or `family`;
 - `split`: `train`, `val` or `test`;
 - `class_name`: class-folder name;
 - `image_filename`: photograph filename.
+- `relative_path`, `size_bytes`, `source_sha256`, `sha256` and `preparation_action`: additional details for the species run. These fields are blank for family images where the information was not collected.
 
 There is no independent species test split. The species validation partition must not be described as a test set.
 
-`species_107_split_manifest.csv` is the richer run-specific manifest for the validated species checkpoint. It also records relative paths, file sizes, source and derived SHA-256 hashes, and the preparation action.
