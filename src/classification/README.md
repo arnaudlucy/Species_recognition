@@ -39,15 +39,3 @@ The run folder contains `args.yaml`, `results.csv`, `weights/best.pt`, the
 training log and `publication_evaluation/`. The latter contains the exact split
 manifest, per-image predictions, Top-1 and Top-5 accuracy, support-weighted
 precision and recall, the confusion matrix and the precision-recall plot.
-
-An example Slurm submission file is provided for users of a GPU cluster. Edit
-the environment, partition, storage and model paths for the local system before
-submission:
-
-```bash
-sbatch src/classification/train_species_107.slurm
-squeue -u "$USER"
-```
-
-The example requests one GPU, four CPU cores and 32 GB of system memory. It is
-not required for data preparation or CPU inference.
