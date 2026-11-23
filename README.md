@@ -116,7 +116,7 @@ The current classification manifest contains 107 species-labelled classes and 39
 
 ## Model Performance (YOLO11-large)
 
-Classification model files are provided in [`Classifiers/species_level.pt`](Classifiers/species_level.pt) and [`Classifiers/family_level.pt`](Classifiers/family_level.pt). The species values were recalculated on the frozen validation partition; the family values are recorded in the checkpoint. Both are validation metrics.
+Download the [species checkpoint](https://github.com/arnaudlucy/Species_recognition/raw/refs/heads/main/Classifiers/species_level.pt) or the [family checkpoint](https://github.com/arnaudlucy/Species_recognition/raw/refs/heads/main/Classifiers/family_level.pt). The species values were recalculated on the frozen validation partition. The family values are recorded in the checkpoint. Both are validation metrics.
 
 | Level | Output classes | Top-1 accuracy | Top-5 accuracy |
 |------|---:|---:|---:|
